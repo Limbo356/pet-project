@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Настройки аккаунта | Онлайн-Библиотека</title>
+  <link rel="icon" href="../ico/Open Book.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/style_panel_settings.css">
+</head>
+
+<body>
+  <header class="heads">
+    <div class="panel-menu">
+      <ul class="menu">
+        <li><a href="../html/index.html">Главная</a></li>
+        <li><a href="../html/catalog.html">Каталог</a></li>
+        <li><a href="../html/about.html">О нас</a></li>
+      </ul>
+    </div>
+
+    <div class="panel-logo">
+      <a href="https://t.me/Limbo_Deutsch_Bot">
+        <img src="../ico/telegram_icon-icons.com_72055.png">
+      </a>
+
+      <!-- КНОПКА РЕГИСТРАЦИИ -->
+      <a id="registerBtn" class="user-a" href="../html/registration.html">
+        <img src="../ico/user_person_profile_avatar_icon_190943.png">
+      </a>
+
+      <!-- МЕНЮ ПОЛЬЗОВАТЕЛЯ -->
+      <div class="user-wrapper" id="userMenu"">
+        
+        <div class="user-icon">
+          <img src="../ico/user_person_profile_avatar_icon_190943.png">
+        </div>
+
+        <div class="dropdown">
+          <p id="userName"></p>
+
+          <a href="../html/safety.html">Настройки</a>
+          <a id="adminLink" href="../html/admin.html">Админ</a>
+          <a href="#" id="logoutBtn">Выход</a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="settings-main">
+    <div class="settings-page">
+      <input type="radio" name="tab" id="tab-profile" checked hidden>
+      <input type="radio" name="tab" id="tab-security" hidden>
+
+      <div class="settings-header">
+        <h1>Настройки аккаунта</h1>
+        <p>Управляйте личными данными и безопасностью</p>
+      </div>
+
+      <div class="display-panel-settings">
+        <!-- Навигация по вкладкам -->
+        <nav class="settings-nav">
+          <ul class="settings-menu">
+            <li>
+              <label for="tab-profile" class="li-settings-a">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>Личные данные</span>
+              </label>
+            </li>
+            <li>
+              <label for="tab-security" class="li-settings-a">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <span>Безопасность</span>
+              </label>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Контент настроек -->
+        <div class="settings-container">
+          <!-- Вкладка: Личные данные -->
+          <div class="settings-card profile-tab">
+            <div class="settings-card-header">
+              <h2>Личные данные</h2>
+              <p>Информация о вашей учётной записи</p>
+            </div>
+
+            <form class="settings-form" id="profile-form">
+              <div class="form-grid">
+                <!-- Аватар -->
+                <div class="form-group full-width avatar-group">
+                  <div class="avatar-container">
+                    <div class="avatar-preview">
+                      <img src="../img/user-default.png" alt="Аватар" id="avatar-preview">
+                      <div class="avatar-overlay">
+                        <label class="avatar-upload-btn">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                            <circle cx="12" cy="13" r="4"/>
+                          </svg>
+                          <span>Изменить фото</span>
+                          <input type="file" id="avatar-input" accept="image/*" hidden>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Поля ввода -->
+                <div class="form-group">
+                  <div class="input-field">
+                    <input type="text" id="first-name" placeholder=" ">
+                    <label>Имя</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-field">
+                    <input type="text" id="last-name" placeholder=" ">
+                    <label>Фамилия</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-field">
+                    <input type="text" id="nickname" placeholder=" ">
+                    <label>Никнейм</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-field">
+                    <input type="date" id="birthdate" placeholder=" ">
+                    <label>Дата рождения</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-field">
+                    <input type="tel" id="phone" placeholder=" ">
+                    <label>Телефон</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button id="updateProfile" type="button" class="btn btn-primary">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                    <polyline points="17 21 17 13 7 13 7 21"/>
+                    <polyline points="7 3 7 8 15 8"/>
+                  </svg>
+                  Сохранить изменения
+                </button>
+                <button type="reset" class="btn btn-secondary" id="reset-profile">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                    <path d="M3 3v5h5"/>
+                  </svg>
+                  Сбросить
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Вкладка: Безопасность -->
+          <div class="settings-card security-tab">
+            <div class="settings-card-header">
+              <h2>Безопасность аккаунта</h2>
+              <p>Защита вашей учётной записи</p>
+            </div>
+
+            <form class="settings-form" id="security-form">
+              <div class="form-grid">
+                <div class="form-group full-width">
+                  <div class="input-field">
+                    <input type="email" id="email" placeholder=" ">
+                    <label>Email</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-field">
+                    <input type="password" id="new-password" placeholder=" ">
+                    <label>Новый пароль</label>
+                    <button type="button" class="password-toggle" data-target="new-password">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-field">
+                    <input type="password" id="confirm-password" placeholder=" ">
+                    <label>Подтвердите пароль</label>
+                    <button type="button" class="password-toggle" data-target="confirm-password">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Опция 2FA -->
+                <div class="form-group full-width">
+                  <div class="security-option-card">
+                    <div class="option-info">
+                      <div class="option-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                      </div>
+                      <div class="option-text">
+                        <strong>Двухфакторная аутентификация (2FA)</strong>
+                        <p>Дополнительный уровень защиты вашего аккаунта</p>
+                      </div>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="twofa-toggle">
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- История входов -->
+                <div class="form-group full-width">
+                  <div class="security-option-card clickable" id="login-history-btn">
+                    <div class="option-info">
+                      <div class="option-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="12" cy="12" r="10"/>
+                          <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                      </div>
+                      <div class="option-text">
+                        <strong>История входов</strong>
+                        <p>Последние устройства и даты входа</p>
+                      </div>
+                    </div>
+                    <svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button id="updateSecurity" type="button" class="btn btn-primary">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                    <polyline points="17 21 17 13 7 13 7 21"/>
+                    <polyline points="7 3 7 8 15 8"/>
+                  </svg>
+                  Сохранить
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Модальное окно истории входов -->
+  <div class="modal" id="login-history-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>История входов</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="history-list">
+          <div class="history-item">
+            <div class="history-device">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/>
+                <line x1="12" y1="18" x2="12" y2="18"/>
+              </svg>
+              <span>Windows 10 - Chrome</span>
+            </div>
+            <div class="history-details">
+              <span class="history-location">Москва, Россия</span>
+              <span class="history-time">Сегодня, 14:30</span>
+            </div>
+          </div>
+          <div class="history-item">
+            <div class="history-device">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                <line x1="12" y1="18" x2="12" y2="18"/>
+              </svg>
+              <span>iPhone 13 - Safari</span>
+            </div>
+            <div class="history-details">
+              <span class="history-location">Санкт-Петербург, Россия</span>
+              <span class="history-time">Вчера, 09:15</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <p>© 2025 Онлайн-Библиотека</p>
+  </footer>
+
+  <script src="../js/safetyUser.js"></script>
+  <script src="../js/loadUser.js"></script>
+</body>
+</html>

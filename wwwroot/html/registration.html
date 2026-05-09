@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diplom Side</title>
+    <link rel="icon" href="../ico/Open Book.png">
+    <link rel="stylesheet" href="../css/style_registration.css">
+</head>
+<body>
+    <div class="main-window">
+        <div class="login-window">
+            <input type="radio" name="tab" id="form1" checked>
+            <input type="radio" name="tab" id="form2">
+
+            <div class="buttons">
+                <label for="form1">Форма 1</label>
+                <label for="form2">Форма 2</label>
+            </div>
+
+            <div class="login form1">
+                <h1>Login</h1>
+
+                <input id="email_Loger" type="email" placeholder="Email">
+
+                <div class="input-password">
+                    <input id="password_Loger" type="password" placeholder="Password">
+
+                    <button type="button" class="password-toggle" data-target="password_Loger">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="submit-form-window">
+                    <p>
+                        Если вы забыли <a href="../html/forgot_password.html">пароль</a>
+                    </p>
+                    <input id="sendBtnLoger" type="submit" class="submit" value="Войти">
+                </div>
+            </div>
+
+            <div class="authorize form2">
+                <h1>Authorize</h1>
+
+                <input id="emailAuthorize" type="email" placeholder="Email" required>
+                
+                <div class="input-password">
+                    <input id="password_Authorize" type="password" placeholder="Password">
+
+                    <button type="button" class="password-toggle" data-target="password_Authorize">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                    </div>
+
+                    <div class="input-password">
+                    <input id="repeat_password_Authorize" type="password" placeholder="Repeat password">
+
+                    <button type="button" class="password-toggle" data-target="repeat_password_Authorize">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="submit-form-window">
+                    <p>
+                        Уже есть аккаунт?
+                        <a href="#" onclick="document.getElementById('form1').click()">
+                            Войти
+                        </a>
+                    </p>
+                    <input id="sendBtnAuthorize" type="submit" class="submit" value="Зарегистрироваться">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../js/reg_log.js"></script>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="icon" href="../ico/Open Book.png">
+    <link rel="stylesheet" href="../css/style_admin.css">
+</head>
+<body>
+
+<div class="main-window">
+
+    <!-- ЛЕВАЯ ПАНЕЛЬ -->
+    <aside class="display-panel-settings">
+        <div class="sidebar-top">
+            <h2 class="panel-title">Админ-панель</h2>
+            <p class="panel-subtitle">Управление библиотекой</p>
+        </div>
+
+        <ul class="settings-menu">
+            <li>
+                <label for="tab-dashboard" class="li-settings-a">📊 Дашборд</label>
+            </li>
+            <li>
+                <label for="tab-users" class="li-settings-a">👤 Пользователи</label>
+            </li>
+            <li>
+                <label for="tab-books" class="li-settings-a">📚 Книги</label>
+            </li>
+            <li>
+                <label for="tab-settings" class="li-settings-a">⚙ Настройки</label>
+            </li>
+            <li>
+                <a href="index.html" class="li-settings-a">🚪 Выйти</a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- ПРАВАЯ ЧАСТЬ -->
+    <main class="settings-container">
+
+        <!-- TAB SWITCH -->
+        <input type="radio" name="admin-tab" id="tab-dashboard" checked hidden>
+        <input type="radio" name="admin-tab" id="tab-users" hidden>
+        <input type="radio" name="admin-tab" id="tab-books" hidden>
+        <input type="radio" name="admin-tab" id="tab-settings" hidden>
+
+        <!-- DASHBOARD -->
+        <section class="settings dashboard-tab">
+            <div class="section-header">
+                <h1>Дашборд</h1>
+                <p>Общая статистика системы</p>
+            </div>
+
+            <div class="admin-cards">
+                <div id="CountUsers" class="admin-card">
+                    <h3>Пользователей</h3>
+                </div>
+
+                <div id="CountBook" class="admin-card">
+                    <h3>Книг</h3>
+                </div>
+
+                <div class="admin-card">
+                    <h3>Активных сессий</h3>
+                    <p>18</p>
+                </div>
+
+                <div class="admin-card">
+                    <h3>Скачиваний сегодня</h3>
+                    <p>76</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- USERS -->
+        <section class="settings users-tab">
+            <div class="section-header">
+                <h1>Управление пользователями</h1>
+                <p>Просмотр, изменение и удаление аккаунтов</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Логин</th>
+                            <th>Email</th>
+                            <th>Роль</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyUser"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- BOOKS -->
+        <section class="settings books-tab">
+            <div class="section-header">
+                <h1>Управление книгами</h1>
+                <p>Добавление, редактирование и удаление книг</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Название</th>
+                            <th>Автор</th>
+                            <th>Жанр</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyBook"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="settings app-tab">
+            <div class="section-header">
+                <h1>Настройки системы</h1>
+                <p>Базовые параметры приложения</p>
+            </div>
+
+            <form class="admin-form">
+                <label>
+                    Название сайта
+                    <input type="text" value="Diplom Library">
+                </label>
+
+                <label>
+                    Email поддержки
+                    <input type="email" value="support@mail.com">
+                </label>
+
+                <button type="submit" class="btn-save">Сохранить</button>
+            </form>
+        </section>
+
+    </main>
+</div>
+
+<script src="../js/backend_admin.js" defer></script>
+</body>
+</html>

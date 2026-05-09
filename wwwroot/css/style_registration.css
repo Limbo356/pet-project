@@ -1,0 +1,195 @@
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: url(../gif/kUa6RYx.gif);
+    background-size: cover;
+    background-color: #222;
+}
+
+.main-window {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100vh;
+    margin-right: 150px;
+}
+
+.login-window {
+    width: 450px;
+    height: 500px;
+    padding: 40px 35px;
+    border-radius: 24px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    color: #f8fafc;
+    position: relative;
+    overflow: visible;  
+    transition: height 0.4s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.buttons {
+    position: absolute;
+    top: -43px;      
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    display: flex;
+    gap: 10px;
+}
+
+.buttons label {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    cursor: pointer;
+    background: rgba(30, 41, 59, 0.9);
+    backdrop-filter: blur(8px);
+    color: #cbd5e1;
+    border-radius: 16px 16px 0 0;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.buttons label:hover {
+    background: rgba(245, 158, 11, 0.3);
+    color: #fbbf24;
+}
+
+.login, .authorize {
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    gap: 25px;
+}
+
+.login h1, .authorize h1 {
+    margin: 0 0 10px;
+    font-size: 26px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+    color: #f8fafc;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+input:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
+}
+
+.submit-form-window {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.submit-form-window p {
+    font-size: 14px;
+    text-align: center;
+    color: #cbd5e1;
+}
+
+.submit-form-window a {
+    color: #fbbf24;
+    text-decoration: none;
+}
+
+.submit-form-window a:hover {
+    text-decoration: underline;
+    color: #f59e0b;
+}
+
+.submit {
+    height: 45px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.5);
+}
+
+#form1:checked ~ .buttons label[for="form1"],
+#form2:checked ~ .buttons label[for="form2"] {
+    background: #f59e0b;
+    color: #0f172a;
+}
+
+#form1:checked ~ .form1 {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#form2:checked ~ .form2 {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.login-window:has(#form1:checked) {
+    height: 450px;
+}
+
+.login-window:has(#form2:checked) {
+    height: 500px;
+}
+
+.input-password {
+    position: relative;
+    width: 100%;
+}
+
+.input-password input {
+    padding-right: 40px; /* место под иконку */
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(255,255,255,0.6);
+}
+
+.password-toggle:hover {
+    color: #fbbf24;
+}

@@ -1,0 +1,1 @@
+public record FilterBook(string Author, string Publishing_House, string Gentres);

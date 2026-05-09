@@ -1,0 +1,248 @@
+.parent {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 30px;
+  padding: 40px;
+  min-height: calc(100vh - 150px);
+  align-items: center;
+
+  background:
+    radial-gradient(circle at top left, rgba(255, 166, 0, 0.10), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.05), transparent 30%),
+    linear-gradient(135deg, #111827, #1f2937, #0f172a);
+
+  border-radius: 32px;
+  margin: 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  position: relative;
+}
+
+/* декоративное свечение */
+.parent::before {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  background: rgba(255, 166, 0, 0.12);
+  filter: blur(100px);
+  border-radius: 50%;
+  top: -100px;
+  left: -100px;
+  z-index: 0;
+}
+
+.parent::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.05);
+  filter: blur(100px);
+  border-radius: 50%;
+  bottom: -80px;
+  right: -80px;
+  z-index: 0;
+}
+
+/* HERO */
+.hero {
+  padding: 20px 10px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.10);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  color: #f8fafc;
+  backdrop-filter: blur(10px);
+}
+
+.hero h1 {
+  font-size: 54px;
+  line-height: 1.08;
+  margin-bottom: 18px;
+  color: #ffffff;
+  letter-spacing: -1px;
+  max-width: 650px;
+}
+
+.hero-text {
+  font-size: 18px;
+  color: #cbd5e1;
+  max-width: 520px;
+  margin-bottom: 30px;
+  line-height: 1.75;
+}
+
+/* КНОПКИ */
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.28s ease;
+  border: 1px solid transparent;
+  backdrop-filter: blur(10px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #111827;
+  box-shadow: 0 14px 28px rgba(245, 158, 11, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px);
+  color: #000;
+  box-shadow: 0 20px 36px rgba(245, 158, 11, 0.35);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: #ffffff;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.11);
+  color: #fff;
+}
+
+/* ПРАВАЯ СТОРОНА */
+.hero-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  padding: 10px;
+  z-index: 1;
+}
+
+.glass-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  padding: 26px 24px;
+  border: 1px solid rgba(255,255,255,0.10);
+  transition: transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.18);
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255,255,255,0.12);
+  box-shadow: 0 22px 42px rgba(0,0,0,0.26);
+}
+
+.glass-card h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.glass-card p {
+  font-size: 15px;
+  color: #dbe4f0;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* акцентная карточка */
+.glass-card.accent {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #111827;
+  border: none;
+  box-shadow: 0 18px 34px rgba(245, 158, 11, 0.28);
+}
+
+.glass-card.accent h3 {
+  color: #111827;
+}
+
+.glass-card.accent p {
+  color: #1f2937;
+}
+
+/* АДАПТИВ */
+@media (max-width: 1100px) {
+  .parent {
+    grid-template-columns: 1fr;
+    padding: 28px;
+  }
+
+  .hero {
+    padding: 10px 0;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .hero-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .parent {
+    margin: 14px;
+    border-radius: 24px;
+    padding: 22px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero-text {
+    font-size: 16px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  .hero-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .glass-card {
+    min-height: 130px;
+  }
+}

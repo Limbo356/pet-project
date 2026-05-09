@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diplom Side</title>
+  <link rel="icon" href="../ico/Open Book.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/style_about.css">
+</head>
+
+<body>
+ <header class="heads">
+    <div class="panel-menu">
+      <ul class="menu">
+        <li><a href="../html/index.html">Главная</a></li>
+        <li><a href="../html/catalog.html">Каталог</a></li>
+        <li><a href="../html/about.html">О нас</a></li>
+      </ul>
+    </div>
+
+    <div class="panel-logo">
+      <a href="https://t.me/Limbo_Deutsch_Bot">
+        <img src="../ico/telegram_icon-icons.com_72055.png">
+      </a>
+
+      <!-- КНОПКА РЕГИСТРАЦИИ -->
+      <a id="registerBtn" class="user-a" href="../html/registration.html">
+        <img src="../ico/user_person_profile_avatar_icon_190943.png">
+      </a>
+
+      <!-- МЕНЮ ПОЛЬЗОВАТЕЛЯ -->
+      <div class="user-wrapper" id="userMenu"">
+        
+        <div class="user-icon">
+          <img src="../ico/user_person_profile_avatar_icon_190943.png">
+        </div>
+
+        <div class="dropdown">
+          <p id="userName"></p>
+
+          <a href="../html/safety.html">Настройки</a>
+          <a id="adminLink" href="../html/admin.html">Админ</a>
+          <a href="#" id="logoutBtn">Выход</a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <div class="parent">
+
+  <section class="about-main">
+    <h1>О проекте</h1>
+    <p>
+      Данный сайт представляет собой онлайн-библиотеку, предназначенную
+      для хранения, поиска и добавления книг в электронном формате.
+      Проект разработан в учебных целях и демонстрирует работу
+      информационной системы для управления библиотечным каталогом.
+    </p>
+
+    <p>
+      Пользователь может просматривать список книг, искать нужные издания
+      и работать с каталогом через удобный и простой интерфейс.
+    </p>
+  </section>
+
+  <section class="about-features">
+    <h2>Возможности библиотеки</h2>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <h3>📚 Каталог книг</h3>
+        <p>Просмотр всех доступных книг с удобной навигацией.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>🔍 Поиск</h3>
+        <p>Быстрый поиск книг по названию и другим параметрам.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>➕ Добавление книг</h3>
+        <p>Возможность добавлять новые книги в библиотеку.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>💻 Онлайн-доступ</h3>
+        <p>Работа с библиотекой из любого места и с любого устройства.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+
+  <footer class="foot">
+    <p>© 2025 Онлайн-Библиотека</p>
+  </footer>
+
+</body>
+<script src="../js/loadUser.js"></script>
+</html>

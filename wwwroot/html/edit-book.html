@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Изменение книги</title>
+    <link rel="icon" href="../ico/Open Book.png">
+    <link rel="stylesheet" href="../css/style_editPage.css">
+</head>
+<body>
+    <a href="../html/admin.html" class="back-admin-btn">← Назад в админ-панель</a>
+    
+    <div class="page">
+        <div class="edit-window">
+
+            <div class="window-header">
+                <h1>Изменение книги</h1>
+                <p>Редактирование книги, автора и жанров</p>
+            </div>
+
+            <div class="edit-form">
+
+                <div class="section-title">Информация о книге</div>
+
+                <div class="form-group">
+                    <label for="bookId">ID книги</label>
+                    <input type="text" id="bookId" placeholder="Например: 12">
+                </div>
+
+                <div class="form-group">
+                    <label for="bookName">Название книги</label>
+                    <input type="text" id="bookName" placeholder="Введите название книги">
+                </div>
+
+                <div class="form-group">
+                    <label for="pdfPath">Путь к PDF</label>
+                    <input type="text" id="pdfPath" placeholder="/books/book.pdf">
+                </div>
+
+                <div class="form-group">
+                    <label for="epubPath">Путь к Epub</label>
+                    <input type="text" id="epubPath" placeholder="/books/book.epub">
+                </div>
+
+                <div class="form-group">
+                    <label for="imagePath">Путь к изображению</label>
+                    <input type="text" id="imagePath" placeholder="/img/book.png">
+                </div>
+
+                <div class="form-group">
+                    <label for="publishingId">ID издательства</label>
+                    <input type="text" id="publishingId" placeholder="Например: 5">
+                </div>
+
+                <div class="form-group">
+                    <label for="publishingName">Название издательства</label>
+                    <input type="text" id="publishingName" placeholder="Введите издательство">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Описание книги</label>
+                    <textarea id="description" rows="5" placeholder="Введите описание книги..."></textarea>
+                </div>
+
+                <div class="section-title">Информация об авторе</div>
+
+                <div class="form-group">
+                    <label for="authorId">ID автора</label>
+                    <input type="text" id="authorId" placeholder="Например: 3">
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="authorName">ФИО автора</label>
+                        <input type="text" id="authorName" placeholder="ФИО">
+                    </div>
+                </div>
+
+                <div class="section-title">Жанры</div>
+
+                <div id="gentre-form" class="form-group">
+                    <div class="form-group"></div>
+                </div>
+
+                <div class="button-group">
+                    <button id="btSaveBookInfo" type="button" class="btn btn-save">Сохранить</button>
+                    <button id="btResetInfo" type="reset" class="btn btn-cancel">Очистить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="../js/edit_Book.js">
+</script>
+</html>

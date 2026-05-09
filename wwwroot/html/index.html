@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diplom Side</title>
+  <link rel="icon" href="../ico/Open Book.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/style.index.css">
+</head>
+
+<body>
+ <header class="heads">
+    <div class="panel-menu">
+      <ul class="menu">
+        <li><a href="../html/index.html">Главная</a></li>
+        <li><a href="../html/catalog.html">Каталог</a></li>
+        <li><a href="../html/about.html">О нас</a></li>
+      </ul>
+    </div>
+
+    <div class="panel-logo">
+      <a href="https://t.me/Limbo_Deutsch_Bot">
+        <img src="../ico/telegram_icon-icons.com_72055.png">
+      </a>
+
+      <!-- КНОПКА РЕГИСТРАЦИИ -->
+      <a id="registerBtn" class="user-a" href="../html/registration.html">
+        <img src="../ico/user_person_profile_avatar_icon_190943.png">
+      </a>
+
+      <!-- МЕНЮ ПОЛЬЗОВАТЕЛЯ -->
+      <div class="user-wrapper" id="userMenu"">
+        
+        <div class="user-icon">
+          <img src="../ico/user_person_profile_avatar_icon_190943.png">
+        </div>
+
+        <div class="dropdown">
+          <p id="userName"></p>
+
+          <a href="../html/safety.html">Настройки</a>
+          <a id="adminLink" href="../html/admin.html">Админ</a>
+          <a href="#" id="logoutBtn">Выход</a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <div class="parent">
+    <section class="hero">
+      <span class="hero-tag">Онлайн-библиотека</span>
+
+      <h1>
+        Цифровое пространство<br>
+        для ваших книг
+      </h1>
+
+      <p class="hero-text">
+        Храните, находите и управляйте книгами
+        в одном удобном веб-пространстве.
+      </p>
+
+      <div class="hero-actions">
+        <a href="../html/catalog.html" class="btn-primary">Открыть каталог</a>
+        <a href="../html/about.html" class="btn-secondary">О проекте</a>
+      </div>
+    </section>
+
+    <section class="hero-cards">
+
+      <div class="glass-card">
+        <h3>📖 Каталог</h3>
+        <p>Единое хранилище цифровых книг</p>
+      </div>
+
+      <div class="glass-card">
+        <h3>🔎 Поиск</h3>
+        <p>Мгновенный доступ к нужной литературе</p>
+      </div>
+
+      <div class="glass-card">
+        <h3>➕ Добавление</h3>
+        <p>Расширяйте библиотеку сами</p>
+      </div>
+
+      <div class="glass-card accent">
+        <h3>⚡ Доступ</h3>
+        <p>Работает в любом браузере</p>
+      </div>
+
+    </section>
+  </div>
+
+  <footer class="foot">
+    <p>© 2025 Онлайн-Библиотека</p>
+  </footer>
+</body>
+<script src="../js/loadUser.js">
+</script>
+</html>
