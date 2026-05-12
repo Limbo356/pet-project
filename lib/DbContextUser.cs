@@ -56,13 +56,9 @@ namespace DbContextUser
 
         public DbUser()
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
-
-        // конфиг для настройки БД
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseSqlite("Data Source=C:\\Users\\Limbo\\Desktop\\Diplom Web-Site — копия\\DB\\User\\DataBaseUser.db");
 
         // конфиг дял настрйоки параметров в БД, таких как Id, Name и так далее
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -61,10 +61,6 @@ namespace DbContextBook
             // Database.EnsureCreated();
         }
 
-        // конфиг для настройки БД
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseSqlite("Data Source= Свой путь");
-
         // конфиг дял настрйоки параметров в БД, таких как Id, Name и так далее
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

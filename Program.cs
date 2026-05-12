@@ -3,8 +3,8 @@ using DbContextBook;
 using DbContextUser;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<DbBook>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefualtConnection")));
-builder.Services.AddDbContext<DbUser>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefualtConnection")));
+builder.Services.AddDbContext<DbBook>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DbBook")));
+builder.Services.AddDbContext<DbUser>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DbUser")));
 builder.Services.AddTransient<HelperForUser>();
 
 builder.Services.AddDistributedMemoryCache();
@@ -49,17 +49,11 @@ List<User> users = new List<User>
     new User{Role = Role.Admin, LastDownloadDate = DateTime.Today, DownloadToday = 0, UserLogin = userLogins[4], Profile = profile[4]}
 };
 
-// using (DbBook db = new DbBook())
-// {
-//     await db.AddRangeAsync(gentres);
-//     db.SaveChanges();
-// }
-
-using(DbUser db = new DbUser())
-{
-    await db.AddRangeAsync(users);
-    db.SaveChanges();
-}
+//using(DbUser db = new DbUser())
+//{
+//    await db.AddRangeAsync(users);
+//    db.SaveChanges();
+//}
 
 //==================================
 
