@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DbBook>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DbBook")));
 builder.Services.AddDbContext<DbUser>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DbUser")));
 builder.Services.AddTransient<HelperForUser>();
+builder.Services.AddTransient<IFilter, FilterBookForCategory>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -708,56 +709,22 @@ app.MapGet("/getBook_filter", async (DbBook db) =>
 });
 
 // ------------------ Фильтр книг по категориям ------------------
-app.MapPost("/category_book", async(DbBook db, HttpContext context) =>
+app.MapPost("/category_book", async(IFilter filterbook, FilterBook bookfilter, DbBook db) =>
 {
-    try
+    var book = db.BooKParametrs.AsQueryable();
+
+    var result = filterbook.FilterBookAsync(book, bookfilter);
+
+    var getBook = await result.Select(b => new
     {
-        var bookfilter = await context.Request.ReadFromJsonAsync<FilterBook>();
+        BookId = b.PK_BookParametrsId,
+        Title = b.NameBook,
+        Author = $"{b.AuthorBooks!.NameAuthor} {b.AuthorBooks.SurnameAuthor}",
+        Gentres = b.Gentres!.Select(g => new { g.NameGentre }),
+        Img = b.ImagePathBook
+    }).ToListAsync();
 
-        var query = db.BooKParametrs
-                    .Include(a => a.AuthorBooks)
-                    .Include(g => g.Gentres)
-                    .Include(b => b.PublishingHouse)
-                    .AsQueryable();
-
-        if(!string.IsNullOrEmpty(bookfilter!.Author) && bookfilter.Author != "-")
-        {
-            var author = bookfilter.Author.Trim();
-
-            query = query.Where(b =>
-                (b.AuthorBooks!.NameAuthor + " " + b.AuthorBooks.SurnameAuthor) == bookfilter.Author);
-        }
-
-        if(!string.IsNullOrEmpty(bookfilter!.Publishing_House) && bookfilter.Publishing_House != "-")
-        {
-            var author = bookfilter.Publishing_House.Trim();
-
-            query = query.Where(b =>
-                b.PublishingHouse!.NamePublishing == bookfilter.Publishing_House);
-        }
-
-        if(!string.IsNullOrEmpty(bookfilter!.Gentres) && bookfilter.Gentres != "-")
-        {
-            query = query.Where(g => g.Gentres!.Any(b => b.NameGentre == bookfilter.Gentres));
-        }
-
-        var getBook = await query.Select(b => new
-        {
-            BookId = b.PK_BookParametrsId,
-            Title = b.NameBook,
-            Author = $"{b.AuthorBooks!.NameAuthor} {b.AuthorBooks.SurnameAuthor}",
-            Gentre = b.Gentres!.Select(g => new { g.NameGentre }),
-            Img = b.ImagePathBook
-        }).ToListAsync();
-
-        return Results.Ok(new { getBook });
-    }
-    
-    catch(Exception ex)
-    {
-        Console.WriteLine($"Ошибка: {ex.Message}");
-        return Results.BadRequest(new {error = "Ошибка при фильтрации книги"});
-    }
+    return Results.Ok(new { getBook });
 });
 
 app.MapPost("/api/logout", (HttpContext context) =>
