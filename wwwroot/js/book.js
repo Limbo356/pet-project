@@ -114,14 +114,14 @@ function displayBook(book)
 
     const downloadBtnEpub = document.getElementById("BTepubBook");
     downloadBtnEpub.addEventListener("click", () => {
-        downloadBook(book.bookId, book.bookName, "epub");
+        downloadBook(book.bookId, book.bookName, ".epub");
     });
     
 
     const downloadBtnPdf = document.getElementById("BTpdfBook");
 
     downloadBtnPdf.addEventListener("click", () => {
-        downloadBook(book.bookId, book.bookName, "pdf");
+        downloadBook(book.bookId, book.bookName, ".pdf");
     });
 }
 
@@ -147,7 +147,7 @@ async function downloadBook(bookId, bookName, type) {
         const a = document.createElement("a");
         a.href = url;
 
-        a.download = bookName;
+        a.download = `${bookName}${type}`;
 
         document.body.appendChild(a);
         a.click();
