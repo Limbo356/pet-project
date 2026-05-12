@@ -248,7 +248,7 @@ app.MapPut("/editBook/{id:int}", async (int id, HttpContext context, DbBook db) 
 
             var norm = gDto.NameGentre.Trim();
 
-            var existingGentre = db.Gentre.FirstOrDefault(g => g.NameGentre == gDto.NameGentre);
+            var existingGentre = db.Gentres.FirstOrDefault(g => g.NameGentre == gDto.NameGentre);
         
             if (existingGentre != null)
             {
@@ -263,7 +263,7 @@ app.MapPut("/editBook/{id:int}", async (int id, HttpContext context, DbBook db) 
                     NameGentre = norm
                 };
 
-                db.Gentre.Add(newGentre);
+                db.Gentres.Add(newGentre);
                 book.Gentres!.Add(newGentre);
             }
         }
@@ -701,7 +701,7 @@ app.MapGet("/getBook_filter", async (DbBook db) =>
         .Select(a => new { Id = a.PK_AuthorBookId, FullName = a.NameAuthor + " " + a.SurnameAuthor })
         .ToListAsync();
 
-    var gentre = await db.Gentre
+    var gentre = await db.Gentres
         .Select(g => new { Id = g.PK_Gentre, NameGentre = g.NameGentre })
         .ToListAsync();
 

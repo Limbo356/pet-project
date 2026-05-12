@@ -48,7 +48,7 @@ namespace DbContextBook
     {
         public DbSet<AuthorBook> AuthorBook {get; set;} = null!;
         public DbSet<BooKParametrs> BooKParametrs {get; set;} = null!;
-        public DbSet<Gentre> Gentre {get; set;} = null!;
+        public DbSet<Gentre> Gentres {get; set;} = null!;
         public DbSet<PublishingHouse> PublishingHouse {get; set;} = null!;
 
         public DbBook(DbContextOptions<DbBook> db) : base(db)
