@@ -54,13 +54,6 @@ List<User> users = new List<User>
     new User{Role = Role.User, LastDownloadDate = DateTime.Today, DownloadToday = 0, UserLogin = userLogins[3], Profile = profile[3]},
     new User{Role = Role.Admin, LastDownloadDate = DateTime.Today, DownloadToday = 0, UserLogin = userLogins[4], Profile = profile[4]}
 };
-
-using (DbUser db = new DbUser())
-{
-    await db.AddRangeAsync(users);
-    db.SaveChanges();
-}
-
 //==================================
 
 app.Use(async (context, next) =>
