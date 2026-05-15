@@ -90,6 +90,8 @@ async function EditSecurityUser()
     const errorText = await response.text();
     console.log(`Ошибка: ${errorText}`);
   }
+
+  alert("Данные были изменены");
 }
 
 async function EditProfileUser()
@@ -98,7 +100,7 @@ async function EditProfileUser()
     name: document.getElementById("first-name").value,
     surName: document.getElementById("last-name").value,
     nickName: document.getElementById("nickname").value,
-    birthdayDate: document.getElementById("birthdate").value,
+    dateBirthday: document.getElementById("birthdate").value,
     numberPhone: document.getElementById("phone").value,
   };
 
@@ -115,4 +117,29 @@ async function EditProfileUser()
     const errorText = await response.text();
     console.log(`Ошибка: ${errorText}`);
   }
+
+  alert("Данные были изменены");
 }
+
+async function GetProfileUserInfo() {
+    const response = await fetch("/getProfileUserInfo");
+
+    if (!response.ok) {
+        const err = await response.text();
+        console.log("Ошибка: " + err);
+    }
+
+    const message = await response.json();
+    console.log(message)
+
+    document.getElementById("age").value = message.age;
+    document.getElementById("first-name").value = message.name;
+    document.getElementById("last-name").value = message.surName;
+    document.getElementById("nickname").value = message.nickName;
+    document.getElementById("birthdate").value = message.dateBirthday;
+    document.getElementById("phone").value = message.phoneNumber;
+    document.getElementById("email").value = message.emailUser;
+    document.getElementById("new-password").value = message.passwordUser;
+}
+
+GetProfileUserInfo();

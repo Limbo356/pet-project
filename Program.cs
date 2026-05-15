@@ -5,8 +5,13 @@ using DbContextUser;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DbBook>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DbBook")));
 builder.Services.AddDbContext<DbUser>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DbUser")));
+builder.Services.AddScoped<DownloadBook>();
+builder.Services.AddScoped<AuthorizePerson>();
+builder.Services.AddScoped<CurrentUser>();
+builder.Services.AddScoped<DownloadsLeft>();
 builder.Services.AddTransient<HelperForUser>();
-builder.Services.AddTransient<IFilter, FilterBookForCategory>();
+builder.Services.AddTransient<FilterBookForCategory>();
+builder.Services.AddTransient<DeleteBookService>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -33,11 +38,11 @@ List<UserLogin> userLogins = new List<UserLogin>
 };
 
 List<Profile> profile = new List<Profile>{
-    new Profile { Age = 24, Name = "Tom", SurName = "Anderson", NickName = "ShadowTom", DateBirthday = new DateTime(2001, 5, 14), PhoneNumber = "+77011234567" },
-    new Profile { Age = 21, Name = "Liza", SurName = "Morozova", NickName = "LizaMoon", DateBirthday = new DateTime(2004, 2, 3), PhoneNumber = "+77019876543" },
-    new Profile { Age = 27, Name = "Bob", SurName = "Carter", NickName = "BobbyX", DateBirthday = new DateTime(1998, 11, 22), PhoneNumber = "+77015554433" },
-    new Profile { Age = 30, Name = "Arthur", SurName = "Kingsley", NickName = "ArtLegend", DateBirthday = new DateTime(1995, 7, 9), PhoneNumber = "+77017778899" },
-    new Profile { Age = 19, Name = "Kuka", SurName = "Tanaka", NickName = "KukaChan", DateBirthday = new DateTime(2006, 1, 28), PhoneNumber = "+77013332211" }
+    new Profile { Age = 24, Name = "Tom", SurName = "Anderson", NickName = "ShadowTom", DateBirthday = new DateOnly(2001, 5, 14), PhoneNumber = "+77011234567" },
+    new Profile { Age = 21, Name = "Liza", SurName = "Morozova", NickName = "LizaMoon", DateBirthday = new DateOnly(2004, 2, 3), PhoneNumber = "+77019876543" },
+    new Profile { Age = 27, Name = "Bob", SurName = "Carter", NickName = "BobbyX", DateBirthday = new DateOnly(1998, 11, 22), PhoneNumber = "+77015554433" },
+    new Profile { Age = 30, Name = "Arthur", SurName = "Kingsley", NickName = "ArtLegend", DateBirthday = new DateOnly(1995, 7, 9), PhoneNumber = "+77017778899" },
+    new Profile { Age = 19, Name = "Kuka", SurName = "Tanaka", NickName = "KukaChan", DateBirthday = new DateOnly(2006, 1, 28), PhoneNumber = "+77013332211" }
 };
 
 //  пользователи
@@ -50,11 +55,11 @@ List<User> users = new List<User>
     new User{Role = Role.Admin, LastDownloadDate = DateTime.Today, DownloadToday = 0, UserLogin = userLogins[4], Profile = profile[4]}
 };
 
-//using(DbUser db = new DbUser())
-//{
-//    await db.AddRangeAsync(users);
-//    db.SaveChanges();
-//}
+using (DbUser db = new DbUser())
+{
+    await db.AddRangeAsync(users);
+    db.SaveChanges();
+}
 
 //==================================
 
@@ -116,15 +121,38 @@ app.MapPut("/editProfileUser", async (HttpContext context, DbUser dbUser) =>
     if(user is null)
     return Results.BadRequest("Книга не найдена");
 
+    user.Profile!.Age = userJsonResult.Age;
     user.Profile!.PhoneNumber = userJsonResult.NumberPhone;
     user.Profile!.Name = userJsonResult.Name;
     user.Profile!.SurName = userJsonResult.SurName;
     user.Profile!.NickName = userJsonResult.NickName;
-    user.Profile!.DateBirthday = userJsonResult.BirthdayDate;
+    user.Profile!.DateBirthday = userJsonResult.DateBirthday;
 
     await dbUser.SaveChangesAsync();
 
     return Results.Ok("Дaнные о пользователе были изменены");
+});
+
+app.MapGet("/getProfileUserInfo", async (HttpContext context, DbUser dbUser) =>
+{
+    var userID = context.Session.GetInt32("userId");
+
+    var user = dbUser.User.Include(i => i.UserLogin)
+                      .Select(u => new GetUserProfileDto
+                      {
+                          Id = u.PK_UserId,
+                          Name = u.Profile!.Name,
+                          SurName = u.Profile.SurName,
+                          Age = u.Profile.Age,
+                          PhoneNumber = u.Profile.PhoneNumber,
+                          NickName = u.Profile.NickName,
+                          DateBirthday = u.Profile.DateBirthday,
+                          EmailUser = u.UserLogin!.EmailUser,
+                          PasswordUser = u.UserLogin!.PasswordUser,
+                      })
+                      .FirstOrDefault(i => i.Id == userID);
+
+    return Results.Ok(user);
 });
 
 app.MapGet("/api/count", async(DbBook dbook, DbUser dbuser) =>
@@ -145,7 +173,7 @@ app.MapGet("/getUser/{id:int}", async (int id, DbUser db) =>
                         SurName = s.Profile!.SurName,
                         Age = s.Profile!.Age,
                         NumberPhone = s.Profile.PhoneNumber,
-                        BirthdayDate = s.Profile.DateBirthday,
+                        DateBirthday = s.Profile.DateBirthday,
                         LastDownloadDate = s.LastDownloadDate,
                         DownloadToday = s.DownloadToday,
                         EmailUser = s.UserLogin != null ? s.UserLogin.EmailUser : null,
@@ -177,7 +205,7 @@ app.MapPut("/editUser/{id:int}", async (int id, HttpContext context, DbUser db) 
     user.Profile.SurName = userJsonResult.SurName;
     user.Profile!.Age = userJsonResult.Age;
     user.Profile.PhoneNumber = userJsonResult.NumberPhone;
-    user.Profile.DateBirthday = userJsonResult.BirthdayDate;
+    user.Profile.DateBirthday = userJsonResult.DateBirthday;
     user.DownloadToday = userJsonResult.DownloadToday;
     user.LastDownloadDate = userJsonResult.LastDownloadDate;
     user.UserLogin!.EmailUser = userJsonResult.EmailUser;
@@ -290,95 +318,35 @@ app.MapDelete("/deleteUser/{id:int}", async (int id, DbUser db) =>
 });
 
 
-app.MapDelete("/deleteBook/{id:int}", async (int id, DbBook db) =>
+app.MapDelete("/deleteBook/{id:int}", async (int id, DeleteBookService bookService, DbBook db) =>
 {
     var book = await db.BooKParametrs.FirstOrDefaultAsync(w => w.PK_BookParametrsId == id);
 
-    if (book == null)
-    {
-        return Results.NotFound(new { message = "Пользователь не найден" });
-    }
+    var query = bookService.DeleteBook(book!);
 
-    if (!string.IsNullOrEmpty(book.PdfPathBook) && System.IO.File.Exists(book.PdfPathBook))
-    {
-        System.IO.File.Delete(book.PdfPathBook);
-    }
-
-    if (!string.IsNullOrEmpty(book.EpubPathBook) && System.IO.File.Exists(book.EpubPathBook))
-    {
-        System.IO.File.Delete(book.EpubPathBook);
-    }
-
-    if (!string.IsNullOrEmpty(book.ImagePathBook) && System.IO.File.Exists(book.ImagePathBook))
-    {
-        System.IO.File.Delete(book.ImagePathBook);
-    }
-    
-    db.BooKParametrs.Remove(book);
+    db.BooKParametrs.Remove(book!);
 
     await db.SaveChangesAsync();
 
-    return Results.NoContent();
+    return Results.Ok("Книга была удалена");
 });
 
 // ------------------ Узнать, сколько скачиваний осталось ------------------
-app.MapGet("/api/downloads-left", async (HttpContext context, DbUser db) =>
+app.MapGet("/api/downloads-left", async (DownloadsLeft downloads, HttpContext context, DbUser db) =>
 {
     var helper = app.Services.GetService<HelperForUser>();
 
     var user = context.Items["User"] as User;
-    var limit = helper!.GetDailyLimit(user);
 
-    // ---------------- Гость ----------------
-    if (user == null)
-    {
-        var used = helper.GetGuestDownloadsToday(context);
-
-        return Results.Ok(new
-        {
-            role = "Guest",
-            limit,
-            used,
-            left = Math.Max(0, limit - used)
-        });
-    }
-
-    // ---------------- Пользователь ----------------
-    helper.ResetUserDownloadsIfNeeded(user);
-    await db.SaveChangesAsync();
-
-    return Results.Ok(new
-    {
-        role = user.Role!.ToString(),
-        limit = user.Role == Role.Admin ? -1 : limit,
-        used = user.Role == Role.Admin ? 0 : user.DownloadToday,
-        left = user.Role == Role.Admin ? -1 : Math.Max(0, limit - user.DownloadToday)
-    });
+    await downloads!.GetDownloadsToDay(db, user!, context, helper!);
 });
 
 // ------------------ Проверка пользователя по роли ------------------
-app.MapGet("/api/current-user", (HttpContext context) =>
+app.MapGet("/api/current-user", async (CurrentUser currentUser, HttpContext context) =>
 {
     var user = context.Items["User"] as User;
 
-    if (user == null)
-    {
-        return Results.Ok(new
-        {
-            isAuth = false,
-            role = "Guest",
-            name = "Гость",
-            email = ""
-        });
-    }
-
-    return Results.Ok(new
-    {
-        isAuth = true,
-        role = user.Role.ToString(),
-        name = user.Profile!.Name,
-        email = user.UserLogin?.EmailUser
-    });
+    return await currentUser.GetRoleUser(user!);
 });
 
 // ------------------ Получить всех пользователей ------------------
@@ -463,6 +431,7 @@ app.MapGet("/api/book/{id:int}", async (DbBook db, int id) =>
 
 // Простой эндпоинт по ID
 app.MapGet("/api/download-book/{id:int}/{type}", async (
+    DownloadBook downloadBook,
     HttpContext context,
     DbUser dbUser,
     DbBook db,
@@ -470,126 +439,15 @@ app.MapGet("/api/download-book/{id:int}/{type}", async (
     string type) =>
 {
     var book = await db.BooKParametrs
-        .FirstOrDefaultAsync(b => b.PK_BookParametrsId == id);
-
-    if (book == null)
-    {
-        return Results.NotFound(new
-        {
-            message = "Книга не найдена"
-        });
-    }
-
-    string filePath;
-
-    // =========================
-    // Выбор Windows пути
-    // =========================
-    switch (type.ToLower())
-    {
-        case "pdf":
-
-            filePath = book.PdfPathBook!;
-
-            break;
-
-        case "epub":
-
-            filePath = book.EpubPathBook!;
-
-            break;
-
-        default:
-
-            return Results.BadRequest(new
-            {
-                message = "Неизвестный тип файла"
-            });
-    }
-
-    if (string.IsNullOrWhiteSpace(filePath))
-    {
-        return Results.NotFound(new
-        {
-            message = "Путь к файлу отсутствует"
-        });
-    }
-
-    // =========================
-    // Проверка Windows файла
-    // =========================
-    if (!File.Exists(filePath))
-    {
-        return Results.NotFound(new
-        {
-            message = "Файл не найден на сервере"
-        });
-    }
+     .FirstOrDefaultAsync(b => b.PK_BookParametrsId == id);
 
     var helper = app.Services.GetService<HelperForUser>();
 
-    // =========================
     // Проверка лимитов
-    // =========================
     var user = context.Items["User"] as User;
 
-    var limit = helper!.GetDailyLimit(user);
+    return await downloadBook.Download(book!, helper!, context, dbUser, user!, type, id);
 
-    if (user == null)
-    {
-        var used = helper.GetGuestDownloadsToday(context);
-
-        if (used >= limit)
-        {
-            return Results.BadRequest(new
-            {
-                message = "Вы исчерпали лимит скачиваний"
-            });
-        }
-
-        used++;
-
-        context.Session.SetInt32("guestDownloadToday", used);
-    }
-    else
-    {
-        helper.ResetUserDownloadsIfNeeded(user);
-
-        if (user.Role != Role.Admin &&
-            user.DownloadToday >= limit)
-        {
-            return Results.BadRequest(new
-            {
-                message = "Вы исчерпали лимит скачиваний"
-            });
-        }
-
-        if (user.Role != Role.Admin)
-        {
-            user.DownloadToday++;
-
-            user.LastDownloadDate = DateTime.Today;
-
-            await dbUser.SaveChangesAsync();
-        }
-    }
-
-    // =========================
-    // Отправка файла
-    // =========================
-    var extension = Path.GetExtension(filePath);
-
-    var mimeType = helper.GetMimeType(filePath);
-
-    var safeFileName = $"{book.NameBook}{extension}";
-
-    var fileBytes = await File.ReadAllBytesAsync(filePath);
-
-    return Results.File(
-        fileBytes,
-        mimeType,
-        safeFileName
-    );
 });
 // ------------------ Логин ------------------
 app.MapPost("/api/logger", async (HttpContext context, DbUser db) =>
@@ -622,73 +480,8 @@ app.MapPost("/api/logger", async (HttpContext context, DbUser db) =>
 });
 
 // ------------------ Регистрация ------------------
-app.MapPost("/api/authorize", async (HttpContext context, DbUser db) =>
-{
-    try
-    {
-        var person = await context.Request.ReadFromJsonAsync<UserAuthorize>();
-
-        if (person == null)
-            return Results.BadRequest("Данные не получены");
-
-        if (string.IsNullOrWhiteSpace(person.Email) ||
-            string.IsNullOrWhiteSpace(person.Password) ||
-            string.IsNullOrWhiteSpace(person.Repeat_Password))
-        {
-            return Results.BadRequest("Все поля обязательны");
-        }
-
-        if (person.Password != person.Repeat_Password)
-            return Results.BadRequest("Пароли не совпадают");
-
-        if (person.Password.Length < 8)
-            return Results.BadRequest("Пароль должен состоять из более 8 символов");
-
-        var exists = await db.UserLogin
-            .AnyAsync(u => u.EmailUser == person.Email);
-
-        if (exists)
-            return Results.BadRequest("Пользователь уже существует");
-
-        // 2. Потом создаём User
-        var user = new User
-        {
-            Role = Role.User,
-            Profile = new Profile
-            {
-                Age = 18,
-                Name = "Новый пользователь",
-                PhoneNumber = "0"
-            },
-            LastDownloadDate = DateTime.Today,
-            DownloadToday = 0
-        };
-        
-        await db.User.AddAsync(user);
-        await db.SaveChangesAsync();
-        
-        // 1. Сначала создаём UserLogin
-        var userLogin = new UserLogin
-        {
-            EmailUser = person.Email,
-            PasswordUser = person.Password,
-            FK_UserId = user.PK_UserId
-        };
-
-        await db.UserLogin.AddAsync(userLogin);
-        await db.SaveChangesAsync();
-
-        context.Session.SetInt32("userId", user.PK_UserId);
-        System.Console.WriteLine("Пользователь добавлен в базу");
-
-        return Results.Ok(new { message = "Пользователь успешно добавлен" });
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Ошибка регистрации: {ex.Message}");
-        return Results.BadRequest($"Ошибка при регистрации: {ex.Message}");
-    }
-});
+app.MapPost("/api/authorize", async (AuthorizePerson registation, UserAuthorize userAuthorize, HttpContext context, DbUser db) =>
+    await registation.Authorize(userAuthorize, context, db));
 
 // ------------------ Фильтры книг ------------------
 app.MapGet("/getBook_filter", async (DbBook db) =>
@@ -709,7 +502,7 @@ app.MapGet("/getBook_filter", async (DbBook db) =>
 });
 
 // ------------------ Фильтр книг по категориям ------------------
-app.MapPost("/category_book", async(IFilter filterbook, FilterBook bookfilter, DbBook db) =>
+app.MapPost("/category_book", async(FilterBookForCategory filterbook, FilterBook bookfilter, DbBook db) =>
 {
     var book = db.BooKParametrs.AsQueryable();
 

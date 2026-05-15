@@ -6,7 +6,7 @@ class GetUserDto
     public string? Name {get; set;}
     public string? SurName {get; set;}
     public DateTime LastDownloadDate {get; set;}
-    public DateTime? BirthdayDate {get; set;}
+    public DateOnly? DateBirthday { get; set;}
 
     public string? EmailUser {get; set;}
     public string? PasswordUser {get; set;}

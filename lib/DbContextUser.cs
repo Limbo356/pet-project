@@ -41,7 +41,7 @@ namespace DbContextUser
         public string? Name {get; set;}
         public string? SurName {get; set;}
         public string? NickName {get; set;}
-        public DateTime? DateBirthday {get; set;}
+        public DateOnly? DateBirthday {get; set;}
     }
 
     class DbUser : DbContext
@@ -56,8 +56,14 @@ namespace DbContextUser
 
         public DbUser()
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=C:\\Users\\Limbo\\Desktop\\Diplom Web-Site — копия\\DB\\User\\DataBaseUser.db");
+            base.OnConfiguring(optionsBuilder);
         }
 
         // конфиг дял настрйоки параметров в БД, таких как Id, Name и так далее

@@ -32,10 +32,6 @@
             ? user.lastDownloadDate.split("T")[0]
             : "";
 
-        const formattedBirthdayDate = user.birthdayDate
-        ? user.birthdayDate.split("T")[0]
-        : "";
-
         document.getElementById("userId").value = user.id;
         document.getElementById("userName").value = user.name;
         document.getElementById("userSurName").value = user.surName;
@@ -43,7 +39,7 @@
         document.getElementById("userPhone").value = user.numberPhone;
         document.getElementById("downloadToday").value = user.downloadToday;
         document.getElementById("lastDownloadDate").value = formattedDate;
-        document.getElementById("BirthdayDate").value = formattedBirthdayDate;
+        document.getElementById("BirthdayDate").value = user.dateBirthday;
         document.getElementById("emailUser").value = user.emailUser;
         document.getElementById("passwordUser").value = user.passwordUser;
     }

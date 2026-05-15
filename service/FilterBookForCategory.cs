@@ -1,11 +1,6 @@
 ﻿using DbContextBook;
 
-interface IFilter 
-{
-    IQueryable<BooKParametrs> FilterBookAsync(IQueryable<BooKParametrs> book, FilterBook bookfilter);
-}
-
-class FilterBookForCategory : IFilter
+class FilterBookForCategory
 {
     public FilterBookForCategory() {}
 
