@@ -506,7 +506,7 @@ app.MapPost("/category_book", async(FilterBookForCategory filterbook, FilterBook
         BookId = b.PK_BookParametrsId,
         Title = b.NameBook,
         Author = $"{b.AuthorBooks!.NameAuthor} {b.AuthorBooks.SurnameAuthor}",
-        Gentres = b.Gentres!.Select(g => new { g.NameGentre }),
+        Gentre = b.Gentres!.Select(g => new { g.NameGentre }),
         Img = b.ImagePathBook
     }).ToListAsync();
 
